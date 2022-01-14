@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:calculator"
         mc:Ignorable="d"
         Title="lolkek" Height="631" Width="703" WindowStyle="SingleBorderWindow"
-        x:Name="lol" MinHeight="500" MinWidth="320" SizeChanged="windowResized"
+        x:Name="MainWindowCalculator" MinHeight="500" MinWidth="320" SizeChanged="windowResized"
         Keyboard.KeyDown="WindowKeyDown">
 
 
@@ -27,13 +27,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="4*"/>
                 <RowDefinition Height="6*"/>
-                <RowDefinition Height="25*"/>
+                <RowDefinition Height="18*"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="TextAnswer" Grid.Row="0"/>
-            <Label x:Name="TextQuestion" Content="1" Grid.Row="1"/>
+            <Label x:Name="TextAnswer" Grid.Row="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontSize="18" Foreground="Gray"/>
+            <Label x:Name="TextQuestion" Content="" Grid.Row="1" FontSize="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
 
-            <Grid x:Name="NumberPanel" Grid.Row="2">
+            <Grid x:Name="NumberPanel" Grid.Row="2" Margin="3,3,3,3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -48,33 +48,33 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <Button Content="C" FontSize="18" Grid.Column="0" Grid.Row="0" />
-                <Button Content="√𝑥" FontSize="18" Grid.Column="1" Grid.Row="0"/>
-                <Button Content="x²" FontSize="18" Grid.Column="2" Grid.Row="0"/>
-                <Button Content="/" FontSize="18" Grid.Column="3" Grid.Row="0"/>
-                        
-                <Button Content="7" FontSize="18" Grid.Column="0" Grid.Row="1"/>
-                <Button Content="8" FontSize="18" Grid.Column="1" Grid.Row="1"/>
-                <Button Content="9" FontSize="18" Grid.Column="2" Grid.Row="1"/>
-                <Button Content="*" FontSize="25" Grid.Column="3" Grid.Row="1"/>
-                
-                <Button Content="4" FontSize="18" Grid.Column="0" Grid.Row="2"/>
-                <Button Content="5" FontSize="18" Grid.Column="1" Grid.Row="2"/>
-                <Button Content="6" FontSize="18" Grid.Column="2" Grid.Row="2"/>
-                <Button Content="-" FontSize="25" Grid.Column="3" Grid.Row="2"/>
-                
-                <Button Content="1" FontSize="18" Grid.Column="0" Grid.Row="3"/>
-                <Button Content="2" FontSize="18" Grid.Column="1" Grid.Row="3"/>
-                <Button Content="3" FontSize="18" Grid.Column="2" Grid.Row="3"/>
-                <Button Content="+" FontSize="25" Grid.Column="3" Grid.Row="3"/>
+                <Button Content="C" FontSize="12" Grid.Column="0" Grid.Row="0" />
+                <Button Content="√𝑥" FontSize="12" Grid.Column="1" Grid.Row="0"/>
+                <Button Content="x²" FontSize="12" Grid.Column="2" Grid.Row="0"/>
+                <Button Content="/" FontSize="12" Grid.Column="3" Grid.Row="0"/>
 
-                <Button Content="+/-" FontSize="18" Grid.Column="0" Grid.Row="4"/>
-                <Button Content="0" FontSize="18" Grid.Column="1" Grid.Row="4"/>
-                <Button Content="," FontSize="25" Grid.Column="2" Grid.Row="4"/>
-                <Button Content="=" FontSize="25" Grid.Column="3" Grid.Row="4"/>
+                <Button Content="7" FontSize="12" Grid.Column="0" Grid.Row="1" Background="#FFFAFAFA"/>
+                <Button Content="8" FontSize="12" Grid.Column="1" Grid.Row="1" Background="#FFFAFAFA"/>
+                <Button Content="9" FontSize="12" Grid.Column="2" Grid.Row="1" Background="#FFFAFAFA"/>
+                <Button Content="*" FontSize="18" Grid.Column="3" Grid.Row="1"/>
+
+                <Button Content="4" FontSize="12" Grid.Column="0" Grid.Row="2" Background="#FFFAFAFA"/>
+                <Button Content="5" FontSize="12" Grid.Column="1" Grid.Row="2" Background="#FFFAFAFA"/>
+                <Button Content="6" FontSize="12" Grid.Column="2" Grid.Row="2" Background="#FFFAFAFA"/>
+                <Button Content="-" FontSize="18" Grid.Column="3" Grid.Row="2"/>
+
+                <Button Content="1" FontSize="12" Grid.Column="0" Grid.Row="3" Background="#FFFAFAFA"/>
+                <Button Content="2" FontSize="12" Grid.Column="1" Grid.Row="3" Background="#FFFAFAFA"/>
+                <Button Content="3" FontSize="12" Grid.Column="2" Grid.Row="3" Background="#FFFAFAFA"/>
+                <Button Content="+" FontSize="18" Grid.Column="3" Grid.Row="3" Background="#FFD6D6D6"/>
+
+                <Button Content="+/-" FontSize="12" Grid.Column="0" Grid.Row="4" Background="#FFFAFAFA"/>
+                <Button Content="0" FontSize="12" Grid.Column="1" Grid.Row="4" Background="#FFFAFAFA"/>
+                <Button Content="," FontSize="18" Grid.Column="2" Grid.Row="4" Background="#FFFAFAFA"/>
+                <Button Content="=" x:Name="btnEnter" FontSize="18" Grid.Column="3" Grid.Row="4" Background="#FF8ABAE0"/>
 
             </Grid>
-            
+
         </Grid>
 
 
@@ -86,10 +86,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="18"/>
             </Grid.RowDefinitions>
 
-            <Label Content="Журнал" FontSize="25" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Content="Журнал" FontSize="18" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
             <ListBox Grid.Row="1" x:Name="lbMain" HorizontalContentAlignment="Right" BorderBrush="White">
                 <ListBox.ItemTemplate>
