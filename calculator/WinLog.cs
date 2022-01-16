@@ -287,6 +287,24 @@ namespace calculator
             if (window.TextQuestion.Content.ToString().IndexOf(",") == -1)
                 AddNum(",");
         }
+
+        internal void PutPlusAndMinus()
+        {
+            string lineQ = window.TextQuestion.Content.ToString();
+
+            if (lineQ != "0" && lineQ.IndexOf("-") == -1)
+                lineQ = "-" + lineQ;
+            else
+                lineQ = lineQ.Replace("-", "");
+
+            window.TextQuestion.Content = lineQ;
+        }
+
+        internal void Pow(float pow)
+        {
+            if(pow >= 0)
+                window.TextQuestion.Content = Math.Pow(Convert.ToSingle(window.TextQuestion.Content), pow).ToString();
+        }
     }
 
     public enum Operation // Операции над числами

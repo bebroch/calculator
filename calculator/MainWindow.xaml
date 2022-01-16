@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:calculator"
         mc:Ignorable="d"
         Title="lolkek" Height="631" Width="703" WindowStyle="SingleBorderWindow"
-        x:Name="MainWindowCalculator" MinHeight="500" MinWidth="320" SizeChanged="windowResized"
-        Keyboard.KeyDown="WindowKeyDown">
+        x:Name="MainWindowCalculator" MinHeight="500" MinWidth="320" SizeChanged="windowResized">
 
 
     <Grid x:Name="mainGrid">
@@ -48,29 +47,29 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <Button Content="C" FontSize="12" Grid.Column="0" Grid.Row="0" />
-                <Button Content="√𝑥" FontSize="12" Grid.Column="1" Grid.Row="0"/>
-                <Button Content="x²" FontSize="12" Grid.Column="2" Grid.Row="0"/>
-                <Button Content="/" FontSize="12" Grid.Column="3" Grid.Row="0"/>
+                <Button Content="C" x:Name="btnClear" FontSize="12" Grid.Column="0" Grid.Row="0" />
+                <Button Content="√𝑥" x:Name="btnRadical" FontSize="12" Grid.Column="1" Grid.Row="0"/>
+                <Button Content="x²" x:Name="btnPow" FontSize="12" Grid.Column="2" Grid.Row="0"/>
+                <Button Content="/" x:Name="btnDivide" FontSize="12" Grid.Column="3" Grid.Row="0"/>
 
-                <Button Content="7" FontSize="12" Grid.Column="0" Grid.Row="1" Background="#FFFAFAFA"/>
-                <Button Content="8" FontSize="12" Grid.Column="1" Grid.Row="1" Background="#FFFAFAFA"/>
-                <Button Content="9" FontSize="12" Grid.Column="2" Grid.Row="1" Background="#FFFAFAFA"/>
-                <Button Content="*" FontSize="18" Grid.Column="3" Grid.Row="1"/>
+                <Button Content="7" x:Name="btnSeven" FontSize="12" Grid.Column="0" Grid.Row="1" Background="#FFFAFAFA"/>
+                <Button Content="8" x:Name="btnEight" FontSize="12" Grid.Column="1" Grid.Row="1" Background="#FFFAFAFA"/>
+                <Button Content="9" x:Name="btnNine" FontSize="12" Grid.Column="2" Grid.Row="1" Background="#FFFAFAFA"/>
+                <Button Content="*" x:Name="btnMultiply" FontSize="18" Grid.Column="3" Grid.Row="1"/>
+                                            
+                <Button Content="4" x:Name="btnFour" FontSize="12" Grid.Column="0" Grid.Row="2" Background="#FFFAFAFA"/>
+                <Button Content="5" x:Name="btnFive" FontSize="12" Grid.Column="1" Grid.Row="2" Background="#FFFAFAFA"/>
+                <Button Content="6" x:Name="btnSix" FontSize="12" Grid.Column="2" Grid.Row="2" Background="#FFFAFAFA"/>
+                <Button Content="-" x:Name="btnMinus" FontSize="18" Grid.Column="3" Grid.Row="2"/>
+                                           
+                <Button Content="1" x:Name="btnOne" FontSize="12" Grid.Column="0" Grid.Row="3" Background="#FFFAFAFA"/>
+                <Button Content="2" x:Name="btnTwo" FontSize="12" Grid.Column="1" Grid.Row="3" Background="#FFFAFAFA"/>
+                <Button Content="3" x:Name="btnThree" FontSize="12" Grid.Column="2" Grid.Row="3" Background="#FFFAFAFA"/>
+                <Button Content="+" x:Name="btnPlus" FontSize="18" Grid.Column="3" Grid.Row="3" Background="#FFD6D6D6"/>
 
-                <Button Content="4" FontSize="12" Grid.Column="0" Grid.Row="2" Background="#FFFAFAFA"/>
-                <Button Content="5" FontSize="12" Grid.Column="1" Grid.Row="2" Background="#FFFAFAFA"/>
-                <Button Content="6" FontSize="12" Grid.Column="2" Grid.Row="2" Background="#FFFAFAFA"/>
-                <Button Content="-" FontSize="18" Grid.Column="3" Grid.Row="2"/>
-
-                <Button Content="1" FontSize="12" Grid.Column="0" Grid.Row="3" Background="#FFFAFAFA"/>
-                <Button Content="2" FontSize="12" Grid.Column="1" Grid.Row="3" Background="#FFFAFAFA"/>
-                <Button Content="3" FontSize="12" Grid.Column="2" Grid.Row="3" Background="#FFFAFAFA"/>
-                <Button Content="+" FontSize="18" Grid.Column="3" Grid.Row="3" Background="#FFD6D6D6"/>
-
-                <Button Content="+/-" FontSize="12" Grid.Column="0" Grid.Row="4" Background="#FFFAFAFA"/>
-                <Button Content="0" FontSize="12" Grid.Column="1" Grid.Row="4" Background="#FFFAFAFA"/>
-                <Button Content="," FontSize="18" Grid.Column="2" Grid.Row="4" Background="#FFFAFAFA"/>
+                <Button Content="+/-" x:Name="btnPlusAndMinus" FontSize="12" Grid.Column="0" Grid.Row="4" Background="#FFFAFAFA"/>
+                <Button Content="0" x:Name="btnZero" FontSize="12" Grid.Column="1" Grid.Row="4" Background="#FFFAFAFA"/>
+                <Button Content="," x:Name="btnComma" FontSize="18" Grid.Column="2" Grid.Row="4" Background="#FFFAFAFA"/>
                 <Button Content="=" x:Name="btnEnter" FontSize="18" Grid.Column="3" Grid.Row="4" Background="#FF8ABAE0"/>
 
             </Grid>
