@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:calculator"
         mc:Ignorable="d"
         Title="lolkek" Height="631" Width="703" WindowStyle="SingleBorderWindow"
-        x:Name="MainWindowCalculator" MinHeight="500" MinWidth="320" SizeChanged="windowResized">
+        x:Name="MainWindowCalculator" MinHeight="500" MinWidth="320" SizeChanged="MainWindowResized">
 
 
     <Grid x:Name="mainGrid">
@@ -90,7 +90,7 @@
 
             <Label Content="Журнал" FontSize="18" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-            <ListBox Grid.Row="1" x:Name="lbMain" HorizontalContentAlignment="Right" BorderBrush="White">
+            <ListBox MouseDoubleClick="DoubleClickJournal" Grid.Row="1" x:Name="TableJournal" HorizontalContentAlignment="Right" BorderBrush="White">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -102,9 +102,9 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
 
-                            <Label Content="{Binding One}" Grid.Row="0" FontSize="18"/>
+                            <Label Content="{Binding OneNum}" Grid.Row="0" FontSize="18"/>
 
-                            <Label Content="{Binding Two}" Grid.Row="1" FontSize="18" 
+                            <Label Content="{Binding TwoNum}" Grid.Row="1" FontSize="18" 
                                    HorizontalContentAlignment="Right" />
 
                         </Grid>

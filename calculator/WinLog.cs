@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,8 +47,9 @@ namespace calculator
         private string meaning; // Строка которая потом превратится в число
         private bool _answerIs; // Получен ли ответ
         private bool _isRemoveNumInString; // Если строка TextQuestion (нижняя строка) пустая, то стоит true
+        internal bool _powIsApplied;
 
-        MainWindow window;
+        readonly MainWindow window;
 
         public WinLog(MainWindow mainWindow)
         {
@@ -131,7 +133,7 @@ namespace calculator
 
         }
 
-        internal IEnumerable<Button> GetButtonList()
+        internal IEnumerable<Button> GetButtonList() // Добавление всех кнопок в NumberPanel в лист
         {
             return window.NumberPanel.Children.OfType<Button>();
         }
@@ -140,14 +142,20 @@ namespace calculator
         {
             if (CheckError())
             {
-                if (!_isRemoveNumInString)
+                if (_powIsApplied)
+                {
+                    string line = window.TextQuestion.Content.ToString();
+                    Clear();
+                    Nums.Add(Convert.ToDouble(line));
+                    _powIsApplied = false;
+                }
+
+                else if (!_isRemoveNumInString)
                     Nums.Add(Convert.ToDouble(meaning));
                 else
                     Operations.RemoveAt(0);
 
-
                 Operations.Add(operation);
-
 
                 if (Nums.Count > 1)
                     window.TextAnswer.Content = String.Format("{1} {0}", operationToStringDict[Operations[0]], Couting());
@@ -178,7 +186,15 @@ namespace calculator
 
         internal void CountingInEqual() // нажатие равно или enter
         {
-            if (!_isRemoveNumInString)
+            if (_powIsApplied)
+            {
+                string line = window.TextQuestion.Content.ToString();
+                Clear();
+                Nums.Add(Convert.ToDouble(line));
+                window.TextQuestion.Content = line;
+                _powIsApplied = false;
+            }
+            else if (!_isRemoveNumInString)
             {
                 Nums.Add(Convert.ToDouble(meaning));
             }
@@ -207,26 +223,7 @@ namespace calculator
             SeparateDigits();
             _answerIs = true;
 
-
-
-            // Добавление в журнал
-            /*
-            Button btn = new Button();
-            window.TableJournal.Controls.Add(btn, 0, 0);
-
-            btn.Text = answerOnButtonText + "\n" + answer;
-            btn.Font = new Font(btn.Text, 15);
-            btn.TextAlign = ContentAlignment.MiddleCenter;
-            btn.Height = 40;
-            btn.TabStop = false;
-            btn.FlatStyle = FlatStyle.Flat;
-            btn.FlatAppearance.BorderSize = 0;
-            //btn.Dock = DockStyle.Top;
-            btn.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            btn.AutoSize = true;
-
-            MessageBox.Show(btn.Width.ToString() + "\n" + window.TableJournal.Width.ToString());
-            */
+            JournalAdd();
         }
 
         internal double Couting() // Считалка
@@ -288,7 +285,7 @@ namespace calculator
                 AddNum(",");
         }
 
-        internal void PutPlusAndMinus()
+        internal void PutPlusAndMinus() // Поставить Минус или убрать его
         {
             string lineQ = window.TextQuestion.Content.ToString();
 
@@ -300,11 +297,53 @@ namespace calculator
             window.TextQuestion.Content = lineQ;
         }
 
-        internal void Pow(float pow)
+        internal void Pow(float pow) // Возвести в степень
         {
             if(pow >= 0)
+            {
+                if (pow < 1)
+                    window.TextAnswer.Content = "√" + window.TextQuestion.Content.ToString();
+                else
+                    window.TextAnswer.Content = window.TextQuestion.Content.ToString() + "²";
+
                 window.TextQuestion.Content = Math.Pow(Convert.ToSingle(window.TextQuestion.Content), pow).ToString();
+                _powIsApplied = true;
+                JournalAdd(" =");
+            }
         }
+
+        ObservableCollection<Nums> listMain = new ObservableCollection<Nums>(); // Список со всеми операциями
+        internal List<NumsAndInformation> listInformation = new();
+
+        internal void JournalAdd(string line = "") // Добавление списка в журнал
+        {
+            listMain.Insert(0, new Nums
+            {
+                OneNum = window.TextAnswer.Content.ToString() + line,
+                TwoNum = window.TextQuestion.Content.ToString()
+            });
+
+            window.TableJournal.ItemsSource = listMain;
+
+
+            listInformation.Add(new NumsAndInformation
+            {
+                OneNum = window.TextAnswer.Content.ToString() + line,
+                TwoNum = window.TextQuestion.Content.ToString(),
+                PowIsApplied = _powIsApplied
+            });
+        }
+    }
+
+    class Nums
+    {
+        public string OneNum { get; set; }
+        public string TwoNum { get; set; }
+    }
+
+    internal class NumsAndInformation : Nums
+    {
+        public bool PowIsApplied { get; set; }
     }
 
     public enum Operation // Операции над числами
