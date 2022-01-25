@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -11,25 +9,25 @@ namespace calculator
 {
     public class WinLog
     {
-        private List<double> Nums = new List<double>();
+        internal List<double> Nums = new List<double>();
 
-        internal static List<Operation> Operations = new List<Operation>(); // Лист со всеми операциями (возможно нужно сделать переменную)
+        internal Operation? _operation = new Operation(); // Лист со всеми операциями (возможно нужно сделать переменную)
 
-        internal static Dictionary<Operation, string> operationToStringDict = new Dictionary<Operation, string>
+        internal readonly Dictionary<Operation?, string> operationToStringDict = new Dictionary<Operation?, string>
         {
-            { Operation.Plus, "+"},
-            { Operation.Minus, "-"},
-            { Operation.Multiply, "*"},
-            { Operation.Divide, "/"}
+            { calculator.Operation.Plus, "+"},
+            { calculator.Operation.Minus, "-"},
+            { calculator.Operation.Multiply, "*"},
+            { calculator.Operation.Divide, "/"}
         }; // Словарь для преоброзования операции в строку
-        internal Dictionary<Key, Operation> KeyToOperationDict = new Dictionary<Key, Operation>
+        internal readonly Dictionary<Key, Operation> KeyToOperationDict = new Dictionary<Key, Operation>
         {
-            { Key.Add, Operation.Plus },
-            { Key.Subtract, Operation.Minus },
-            { Key.Multiply, Operation.Multiply },
-            { Key.Divide, Operation.Divide }
+            { Key.Add, calculator.Operation.Plus },
+            { Key.Subtract, calculator.Operation.Minus },
+            { Key.Multiply, calculator.Operation.Multiply },
+            { Key.Divide, calculator.Operation.Divide }
         }; // Словарь для преоброзования ключа кнопки с клавиатуры в операцию
-        internal Dictionary<Key, string> KeyToNumDict = new Dictionary<Key, string>
+        internal readonly Dictionary<Key, string> KeyToNumDict = new Dictionary<Key, string>
         {
             { Key.D0, "0" }, { Key.D1, "1" }, { Key.D2, "2" },
             { Key.D3, "3" }, { Key.D4, "4" }, { Key.D5, "5" },
@@ -42,11 +40,11 @@ namespace calculator
         }; // Словарь для преоброзования ключа с клавиатуры в число
 
 
-        private int MaxLenNum = 25; // Максимальное количество символов в строке
+        internal int MaxLenNum = 25; // Максимальное количество символов в строке
 
-        private string meaning; // Строка которая потом превратится в число
-        private bool _answerIs; // Получен ли ответ
-        private bool _isRemoveNumInString; // Если строка TextQuestion (нижняя строка) пустая, то стоит true
+        internal string meaning; // Строка которая потом превратится в число
+        internal bool _answerIs; // Получен ли ответ
+        internal bool _isRemoveNumInString; // Если строка TextQuestion (нижняя строка) пустая, то стоит true
         internal bool _powIsApplied;
 
         readonly MainWindow window;
@@ -92,11 +90,11 @@ namespace calculator
         }
 
 
-        public int minSizeNum = 16; // Минимальное и максимальное значене для кнопок 1, 2, 3 и т.д.
-        private int maxSizeNum = 20;
+        internal int minSizeNum = 16; // Минимальное и максимальное значене для кнопок 1, 2, 3 и т.д.
+        internal int maxSizeNum = 20;
 
-        public int minSizeOper = 18; // Минимальное и максимальное значене для кнопок плюс, минус, равно и т.д.
-        private int maxSizeOper = 31;
+        internal int minSizeOper = 18; // Минимальное и максимальное значене для кнопок плюс, минус, равно и т.д.
+        internal int maxSizeOper = 31;
 
         internal void ChangeSizeButtonUp() // Изменение размера Font кнопок вверх
         {
@@ -142,27 +140,25 @@ namespace calculator
         {
             if (CheckError())
             {
+                string line = window.TextQuestion.Content.ToString();
+
                 if (_powIsApplied)
                 {
-                    string line = window.TextQuestion.Content.ToString();
                     Clear();
                     Nums.Add(Convert.ToDouble(line));
                     _powIsApplied = false;
                 }
+                else if (!_isRemoveNumInString && !_answerIs)
+                    Nums.Add(Convert.ToDouble(line));
 
-                else if (!_isRemoveNumInString)
-                    Nums.Add(Convert.ToDouble(meaning));
-                else
-                    Operations.RemoveAt(0);
+                _operation = operation;
 
-                Operations.Add(operation);
+                if (Nums.Count == 2)
+                    window.TextAnswer.Content = string.Format("{1} {0}", operationToStringDict[_operation], Couting());
+                else if (Nums.Count == 1)
+                    window.TextAnswer.Content = Nums[0] + " " + operationToStringDict[_operation];
 
-                if (Nums.Count > 1)
-                    window.TextAnswer.Content = String.Format("{1} {0}", operationToStringDict[Operations[0]], Couting());
-                else
-                    window.TextAnswer.Content = Nums[0] + " " + operationToStringDict[Operations[0]];
-
-
+                _answerIs = false;
                 _isRemoveNumInString = true;
             }
         }
@@ -180,7 +176,7 @@ namespace calculator
             window.TextQuestion.Content = "0";
             window.TextAnswer.Content = "";
             Nums = new List<double>();
-            Operations = new List<Operation>();
+            _operation = null;
             meaning = "";
         }
 
@@ -194,7 +190,7 @@ namespace calculator
                 window.TextQuestion.Content = line;
                 _powIsApplied = false;
             }
-            else if (!_isRemoveNumInString)
+            else if (!_isRemoveNumInString && meaning != "")
             {
                 Nums.Add(Convert.ToDouble(meaning));
             }
@@ -204,19 +200,16 @@ namespace calculator
                 _isRemoveNumInString = false;
             }
 
-            string answerOnButtonText;
 
+            string answerOnButtonText;
 
             if (window.TextAnswer.Content.ToString().IndexOf("=") == -1)
                 answerOnButtonText = window.TextAnswer.Content + " " + window.TextQuestion.Content + " =";
             else
-                answerOnButtonText = Nums[0] + " " + operationToStringDict[Operations[0]] + " " + Nums[1] + " =";
+                answerOnButtonText = Nums[0] + " " + operationToStringDict[_operation] + " " + Nums[1] + " =";
 
 
             window.TextAnswer.Content = answerOnButtonText;
-
-            if (Nums.Count >= 3)
-                Nums.RemoveAt(1);
 
             string answer = Couting().ToString();
             window.TextQuestion.Content = answer;
@@ -228,10 +221,10 @@ namespace calculator
 
         internal double Couting() // Считалка
         {
-            if (Operations.Count == 0)
+            if (_operation == null)
                 return Nums[0];
 
-            switch (Operations[0])
+            switch (_operation)
             {
                 case Operation.Plus: Nums[0] = Nums[0] + Nums[1]; break;
                 case Operation.Minus: Nums[0] = Nums[0] - Nums[1]; break;
@@ -240,9 +233,6 @@ namespace calculator
             }
 
             Nums.RemoveAt(1);
-
-            if (!_isRemoveNumInString && Operations.Count >= 2)
-                Operations.RemoveAt(1);
 
             return Nums[0];
         }
@@ -312,30 +302,36 @@ namespace calculator
             }
         }
 
-        ObservableCollection<Nums> listMain = new ObservableCollection<Nums>(); // Список со всеми операциями
+        internal ObservableCollection<Nums> listMain = new ObservableCollection<Nums>(); // Список со всеми операциями
         internal List<NumsAndInformation> listInformation = new();
 
         internal void JournalAdd(string line = "") // Добавление списка в журнал
         {
+            string oneNum = window.TextAnswer.Content.ToString() + line;
+            string twoNum = window.TextQuestion.Content.ToString();
+
             listMain.Insert(0, new Nums
             {
-                OneNum = window.TextAnswer.Content.ToString() + line,
-                TwoNum = window.TextQuestion.Content.ToString()
+                OneNum = oneNum,
+                TwoNum = twoNum
             });
 
             window.TableJournal.ItemsSource = listMain;
 
-
-            listInformation.Add(new NumsAndInformation
+            listInformation.Insert(0, new NumsAndInformation
             {
-                OneNum = window.TextAnswer.Content.ToString() + line,
-                TwoNum = window.TextQuestion.Content.ToString(),
-                PowIsApplied = _powIsApplied
+                OneNum = oneNum,
+                TwoNum = twoNum,
+                PowIsApplied = _powIsApplied,
+                AnswerIs = _answerIs,
+                IsRemoveNumInString = _isRemoveNumInString,
+                Operation = _operation,
+                nums = Nums
             });
         }
     }
 
-    class Nums
+    internal class Nums
     {
         public string OneNum { get; set; }
         public string TwoNum { get; set; }
@@ -344,6 +340,10 @@ namespace calculator
     internal class NumsAndInformation : Nums
     {
         public bool PowIsApplied { get; set; }
+        public bool AnswerIs { get; set; }
+        public bool IsRemoveNumInString { get; set; }
+        public Operation? Operation { get; set; }
+        public List<double> nums { get; set; }
     }
 
     public enum Operation // Операции над числами

@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:calculator"
         mc:Ignorable="d"
-        Title="lolkek" Height="631" Width="703" WindowStyle="SingleBorderWindow"
-        x:Name="MainWindowCalculator" MinHeight="500" MinWidth="320" SizeChanged="MainWindowResized">
-
+        Title="Калькулятор" Height="631" Width="703" WindowStyle="SingleBorderWindow"
+        x:Name="MainWindowCalculator" MinHeight="500" MinWidth="320" 
+        SizeChanged="MainWindowResized" WindowStartupLocation="Manual">
 
     <Grid x:Name="mainGrid">
         <Grid.ColumnDefinitions>
@@ -29,8 +29,16 @@
                 <RowDefinition Height="18*"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="TextAnswer" Grid.Row="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontSize="18" Foreground="Gray"/>
-            <Label x:Name="TextQuestion" Content="" Grid.Row="1" FontSize="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+            <Label x:Name="TextAnswer" Grid.Row="0" 
+                   VerticalContentAlignment="Center" 
+                   HorizontalContentAlignment="Right" 
+                   FontSize="18" Foreground="Gray"/>
+            <Label x:Name="TextQuestion" Content="" 
+                   Grid.Row="1" FontSize="40" 
+                   HorizontalAlignment="Stretch" 
+                   VerticalAlignment="Stretch" 
+                   HorizontalContentAlignment="Right" 
+                   VerticalContentAlignment="Center"/>
 
             <Grid x:Name="NumberPanel" Grid.Row="2" Margin="3,3,3,3">
                 <Grid.ColumnDefinitions>
@@ -88,9 +96,13 @@
                 <RowDefinition Height="18"/>
             </Grid.RowDefinitions>
 
-            <Label Content="Журнал" FontSize="18" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Content="Журнал" FontSize="18" 
+                   Grid.Row="0" HorizontalContentAlignment="Center" 
+                   VerticalContentAlignment="Center"/>
 
-            <ListBox MouseDoubleClick="DoubleClickJournal" Grid.Row="1" x:Name="TableJournal" HorizontalContentAlignment="Right" BorderBrush="White">
+            <ListBox MouseDoubleClick="DoubleClickJournal" 
+                     Grid.Row="1" x:Name="TableJournal" 
+                     HorizontalContentAlignment="Right" BorderBrush="White">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>

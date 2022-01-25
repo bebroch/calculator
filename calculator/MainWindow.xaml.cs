@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
-using System;
-using System.Linq;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Threading.Tasks;
-using System.Drawing;
+using System.Collections.Generic;
 
 namespace calculator
 {
@@ -173,7 +169,11 @@ namespace calculator
 
             TextAnswer.Content = itemTableJournal.OneNum;
             TextQuestion.Content = itemTableJournal.TwoNum;
+            Log.Nums = itemTableJournal.nums;
             Log._powIsApplied = itemTableJournal.PowIsApplied;
+            Log._answerIs = itemTableJournal.AnswerIs;
+            Log._isRemoveNumInString = itemTableJournal.IsRemoveNumInString;
+            Log._operation = itemTableJournal.Operation;
         }
     }
 }
